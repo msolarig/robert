@@ -1,5 +1,5 @@
 const std = @import("std");
-const trackmod = @import("track.zig");
+const trackmod = @import("feed/track.zig");
 
 pub const ExecTrigger = enum {
   bar,

@@ -1,7 +1,7 @@
 const std = @import("std");
-const db = @import("db.zig");
-const trackmod = @import("track.zig");
-const algomod = @import("algo.zig");
+const db = @import("feed/db.zig");
+const trackmod = @import("feed/track.zig");
+const algomod = @import("auto/auto.zig");
 const mapmod = @import("map.zig");
 
 pub const Engine = struct {
