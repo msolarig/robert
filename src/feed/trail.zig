@@ -1,5 +1,5 @@
 const std = @import("std");
-const Point = @import("point.zig").Point;
+const Track = @import("track.zig").Track;
 
 pub const Trail = struct {
   size: usize,
@@ -10,15 +10,39 @@ pub const Trail = struct {
   cl: []f64,
   vo: []u64,   
 
-  pub fn GetPoint(self: *Trail, index: u32) Point {
-    const point_in_trail: Point = Point {
-      .ts = self.ts[index],
-      .op = self.op[index],
-      .hi = self.hi[index],
-      .lo = self.lo[index],
-      .cl = self.cl[index],
-      .vo = self.vo[index],
+  pub fn init(alloc: std.mem.Allocator, size: usize) !Trail {
+    return Trail {
+      .size = size,
+      .ts = try alloc.alloc(u64, size),
+      .op = try alloc.alloc(f64, size),
+      .hi = try alloc.alloc(f64, size),
+      .lo = try alloc.alloc(f64, size),
+      .cl = try alloc.alloc(f64, size),
+      .vo = try alloc.alloc(u64, size),
     };
-    return point_in_trail;
+  } 
+
+  pub fn deinit(self: *Trail, alloc: std.mem.Allocator) void {
+    self.size = 0;
+    alloc.free(self.ts);
+    alloc.free(self.op);
+    alloc.free(self.hi);
+    alloc.free(self.lo);
+    alloc.free(self.cl);
+    alloc.free(self.vo);
   }
-};      
+
+  pub fn load(self: *Trail, track: Track, steps: u64) !void {
+    var trail_index: u64 = 0;
+    var track_index: u64 = track.ts.items.len - (steps + 1); 
+    while (trail_index < self.size) : (track_index -= 1) {
+      self.ts[trail_index] = track.ts.items[track_index];
+      self.op[trail_index] = track.op.items[track_index];
+      self.hi[trail_index] = track.hi.items[track_index];
+      self.lo[trail_index] = track.lo.items[track_index];
+      self.cl[trail_index] = track.cl.items[track_index];
+      self.vo[trail_index] = track.vo.items[track_index];
+      trail_index += 1;
+    }
+  }
+};

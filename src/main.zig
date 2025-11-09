@@ -1,6 +1,7 @@
 const std = @import("std");
 const data = @import("feed/sql_wrapper.zig");
 const Track = @import("feed/track.zig").Track;
+const Trail = @import("feed/trail.zig").Trail;
 
 pub fn main() !void {
   // Main program allocator
@@ -8,16 +9,33 @@ pub fn main() !void {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
+  // open db
   const handle: *anyopaque = try data.openDB("data/market.db");
 
-  var test_track: Track = try data.loadTrack(
-    alloc, handle, "AJG_1D", 1704153600, 1707350400);
+  // Track setup code
+  var test_track: Track = Track.init();
   defer test_track.deinit(alloc);
+  try test_track.load(alloc, handle, "AJG_1D", 1704153600, 1707350400);
+  
+  std.debug.print("{any}\n", .{ test_track.op.items[0] });
 
-  if (test_track.op.items.len > 0) {
-      std.debug.print("{any}\n", .{ test_track.op.items[0] });
-  }
-
+  // close db
   try data.closeDB(handle);
+
+  //
+  // TRAIL TESTS
+  // A loaded track is required to instanciate any trail
+  
+  std.debug.print("\n", .{});
+
+  var test_trail: Trail = try Trail.init(alloc, 5);
+  try test_trail.load(test_track, 0);
+  defer test_trail.deinit(alloc);
+
+  std.debug.print("trail most recent, Close[0]:  {d}\n", .{test_trail.cl[0]});
+  std.debug.print("trail length:  {d}\n", .{test_trail.size});
+
+  std.debug.print("track least recent Close[-1]: {d}\n", .{test_track.cl.items[test_track.size - 1]});
+  std.debug.print("trail length:  {d}\n", .{test_track.size});
 }
 
