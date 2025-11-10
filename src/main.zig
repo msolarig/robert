@@ -1,5 +1,4 @@
 const std    = @import("std");
-const tests  = @import("tests/test.zig");
 const db     = @import("feed/sql_wrapper.zig");
 const Track  = @import("feed/track.zig").Track;
 const Trail  = @import("feed/trail.zig").Trail;
@@ -29,5 +28,5 @@ pub fn main() !void {
 }
 
 test {
-    _ = tests;
+    _ = @import("tests/track_test.zig");
 }
