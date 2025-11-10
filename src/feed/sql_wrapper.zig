@@ -29,8 +29,6 @@ pub fn openDB(path: []const u8) !*anyopaque {
     std.debug.print("Failed to open DB\n", .{});
     return error.OpenFailed;
   }
-
-  std.debug.print("Opened DB successfully\n", .{});
   return db_handle.?;
 }
 
@@ -41,6 +39,4 @@ pub fn closeDB(db_handle: *anyopaque) !void {
     std.debug.print("Failed to close DB\n", .{});
     return error.CloseFailed;
   }
-
-  std.debug.print("Closed DB successfully\n", .{});
 }

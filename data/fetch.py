@@ -2,9 +2,9 @@ import pandas as pd
 import yfinance as yf
 import sqlite3
 
-conn = sqlite3.connect("market.db")
+conn = sqlite3.connect("../tests/test_feeds/instrument_test.db")
 
-ticker = "AJG"
+ticker = "BTC-USD"
 data = yf.download(ticker, start="2024-01-01", end="2024-12-31")
 
 # Flatten MultiIndex columns
@@ -21,7 +21,7 @@ cols = ["symbol", "timestamp", "open", "high", "low", "close", "volume"]
 data = data[cols]
 
 # Save to SQLite
-data.to_sql("ohlcv", conn, if_exists="replace", index=False)
+data.to_sql("Crypto -> BTC-USD", conn, if_exists="replace", index=False)
 conn.close()
 
-print("Data saved to market.db successfully!")
+print("Data saved successfully!")

@@ -13,16 +13,13 @@ pub const Engine = struct {
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Engine {
     
     const decoded_map: Map = try Map.init(alloc, map_path);
-    //defer decoded_map.deinit();
 
     const db_handle: *anyopaque = try db.openDB(decoded_map.db);
 
     var track: Track = Track.init();
-    //defer track.deinit(alloc);
     try track.load(alloc, db_handle, decoded_map.table, decoded_map.t0, decoded_map.tn);
 
     var trail: Trail = try Trail.init(alloc, decoded_map.trail_size);
-    //defer trail.deinit(alloc);
     try trail.load(track, 0);
 
     try db.closeDB(db_handle);
