@@ -11,7 +11,7 @@ pub const Engine = struct {
   trail: Trail,
 
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Engine {
-    
+
     const decoded_map: Map = try Map.init(alloc, map_path);
 
     const db_handle: *anyopaque = try db.openDB(decoded_map.db);
@@ -25,10 +25,8 @@ pub const Engine = struct {
     try db.closeDB(db_handle);
 
     return Engine{
-      .alloc = alloc,
-      .map   = decoded_map,
-      .track = track,
-      .trail = trail,
+      .alloc = alloc, .map   = decoded_map,
+      .track = track, .trail = trail,
     };
   }
 

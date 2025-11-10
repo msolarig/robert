@@ -8,7 +8,7 @@ test "MONO_TABLE_DB_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const mono_table_test_db_handle = try db.openDB("src/tests/test_feeds/mono_table_test.db");
+  const mono_table_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
 
   var mono_table_test_db_track: Track = Track.init();
   defer mono_table_test_db_track.deinit(alloc);
@@ -50,7 +50,7 @@ test "MULTI_TABLE_DB_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const multi_table_test_db_handle = try db.openDB("src/tests/test_feeds/mono_table_test.db");
+  const multi_table_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
 
   var multi_table_test_db_track: Track = Track.init();
   defer multi_table_test_db_track.deinit(alloc);
@@ -69,7 +69,7 @@ test "INSTRUMENT_TYPE_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const instrument_test_db_handle = try db.openDB("src/tests/test_feeds/mono_table_test.db");
+  const instrument_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
 
   var instrument_test_db_track: Track = Track.init();
   defer instrument_test_db_track.deinit(alloc);
