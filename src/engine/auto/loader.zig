@@ -1,10 +1,10 @@
 const std = @import("std");
 const builtin = @import("builtin");
-const abi = @import("auto_abi.zig");
+const abi = @import("abi.zig");
 
 pub const LoadedAuto = struct {
   allocator: std.mem.Allocator,
-  lib_path: []const u8,  // owned copy of the file path
+  lib_path: []const u8,
   lib: std.DynLib,
   api: *const abi.AutoAPI,
 

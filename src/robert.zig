@@ -5,7 +5,7 @@ const Trail  = @import("engine/data/trail.zig").Trail;
 const Engine = @import("engine/engine.zig").Engine;
 const Map    = @import("engine/config/map.zig").Map;
 
-const loader = @import("engine/auto/auto_loader.zig");
+const loader = @import("engine/auto/loader.zig");
 
 pub fn main() !void {
   
