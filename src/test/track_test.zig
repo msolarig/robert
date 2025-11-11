@@ -1,6 +1,6 @@
 const std    = @import("std");
-const db     = @import("../feed/sql_wrapper.zig");
-const Track  = @import("../feed/track.zig").Track;
+const db     = @import("../engine/data/sql_wrapper.zig");
+const Track  = @import("../engine/data/track.zig").Track;
 
 test "MONO_TABLE_DB_TRACK_TESTS" {
 
@@ -8,7 +8,7 @@ test "MONO_TABLE_DB_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const mono_table_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
+  const mono_table_test_db_handle = try db.openDB("test/test_feeds/mono_table_test.db");
 
   var mono_table_test_db_track: Track = Track.init();
   defer mono_table_test_db_track.deinit(alloc);
@@ -20,10 +20,6 @@ test "MONO_TABLE_DB_TRACK_TESTS" {
   const lo = mono_table_test_db_track.lo.items;
   const cl = mono_table_test_db_track.cl.items;
   const vo = mono_table_test_db_track.vo.items;
-  
-  //
-  // ASSERTIONS
-  //
   
   try std.testing.expectEqual(mono_table_test_db_track.size, 6288);
 
@@ -50,7 +46,7 @@ test "MULTI_TABLE_DB_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const multi_table_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
+  const multi_table_test_db_handle = try db.openDB("test/test_feeds/mono_table_test.db");
 
   var multi_table_test_db_track: Track = Track.init();
   defer multi_table_test_db_track.deinit(alloc);
@@ -69,7 +65,7 @@ test "INSTRUMENT_TYPE_TRACK_TESTS" {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  const instrument_test_db_handle = try db.openDB("src/test/test_feeds/mono_table_test.db");
+  const instrument_test_db_handle = try db.openDB("test/test_feeds/mono_table_test.db");
 
   var instrument_test_db_track: Track = Track.init();
   defer instrument_test_db_track.deinit(alloc);

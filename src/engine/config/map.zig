@@ -1,5 +1,5 @@
 const std = @import("std");
-const db = @import("../feed/sql_wrapper.zig");
+const db = @import("../data/sql_wrapper.zig");
 
 const Mode = enum {
   LiveExecution,
@@ -17,8 +17,10 @@ pub const Map = struct {
   trail_size: u64,
   mode: Mode,
 
+
+  // Decode a map.json into a Map struct, usable by an Engine.
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Map {
-    // Decode a map.json into a Map struct, usable by an Engine.
+
     const file = try std.fs.cwd().openFile(map_path, .{});
     defer file.close();
     const json_bytes: []const u8 = try file.readToEndAlloc(alloc, std.math.maxInt(usize));
@@ -36,7 +38,7 @@ pub const Map = struct {
 
     return Map{
       .alloc = alloc,
-      .auto  = try alloc.dupe(u8, decoded_map.auto),
+      .auto  = try autoSrcPathToCompiledBinPath(alloc, decoded_map.auto),
       .db    = try alloc.dupe(u8, decoded_map.db),
       .table = try alloc.dupe(u8, decoded_map.table),
       .t0 = decoded_map.t0,
@@ -44,6 +46,14 @@ pub const Map = struct {
       .trail_size = decoded_map.trail_size,
       .mode = decoded_map.mode,
     };
+  }
+
+  pub fn autoSrcPathToCompiledBinPath(alloc: std.mem.Allocator, src_path: []const u8) ![]const u8 {
+    const base = std.fs.path.basename(src_path);
+    if (!std.mem.endsWith(u8, base, ".zig")) return error.NotZigSource;
+
+    const stem = base[0 .. base.len - ".zig".len];
+    return try std.fmt.allocPrint(alloc, "zig-out/usr/autos/{s}.dylib", .{stem});
   }
 
   pub fn deinit(self: *Map) void {

@@ -1,8 +1,8 @@
 const std   = @import("std");
-const db    = @import("../feed/sql_wrapper.zig");
-const Track = @import("../feed/track.zig").Track;
-const Trail = @import("../feed/trail.zig").Trail;
-const Map   = @import("map.zig").Map;
+const db    = @import("data/sql_wrapper.zig");
+const Track = @import("data/track.zig").Track;
+const Trail = @import("data/trail.zig").Trail;
+const Map   = @import("config/map.zig").Map;
 
 pub const Engine = struct {
   alloc: std.mem.Allocator,
