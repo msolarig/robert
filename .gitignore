@@ -8,7 +8,7 @@ __pycache__/
 *.pyc
 
 # SQLite DB files
-data/*.db
+# data/*.db
 
 # macOS junk
 .DS_Store
