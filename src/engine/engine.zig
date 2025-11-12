@@ -4,6 +4,8 @@ const Track = @import("data/track.zig").Track;
 const Trail = @import("data/trail.zig").Trail;
 const Map   = @import("config/map.zig").Map;
 
+const path = @import("../utils/path.zig");
+
 // Runtime Auto Load
 const auto_loader = @import("auto/loader.zig");
 const Auto = auto_loader.LoadedAuto;
@@ -24,8 +26,16 @@ pub const Engine = struct {
     var trail: Trail = try Trail.init(alloc, decoded_map.trail_size);
     try trail.load(track, 0);
     try db.closeDB(db_handle);
+    
+    // MEMORY LEAK
+    //const map_abs = try path.absFromExe(alloc, decoded_map.auto);
+    //defer alloc.free(map_abs);
+
+    //const abs_auto_path: []const u8 = try path.relToFileDir(alloc, map_abs, decoded_map.auto);
+    //defer alloc.free(abs_auto_path);
 
     const auto: Auto = try auto_loader.load_from_file(alloc, decoded_map.auto);  
+    //defer alloc.free(auto);
 
     return Engine{
       .alloc = alloc, .map = decoded_map,

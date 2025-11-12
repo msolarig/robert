@@ -41,17 +41,3 @@ pub fn load_from_file(allocator: std.mem.Allocator, auto_file_path: []const u8) 
 
   return .{.allocator = allocator, .lib_path = lib_copy, .lib = lib, .api = api};
 }
-
-pub fn runAuto(auto_src_path: []const u8) !void {
-  var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-  defer _ = gpa.deinit();
-  const alloc = gpa.allocator();
-
-  var la = try load_from_file(alloc, auto_src_path);
-  defer la.deinit();
-
-  std.debug.print("Loaded auto: {s}\n{s}\n", .{ la.api.name, la.api.description });
-
-  // TEST
-  la.AutoLogicFunction(100);
-}

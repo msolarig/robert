@@ -1,6 +1,6 @@
 const std = @import("std");
 
-// -------- inline ABI (match src/auto_abi.zig) --------
+// inline ABI (match src/engine/auto/abi.zig) -------------
 const AutoAPI = extern struct {
     name: [*:0]const u8,
     description: [*:0]const u8,
@@ -10,11 +10,11 @@ const AutoAPI = extern struct {
 
 const GetAutoAPIFn = *const fn () callconv(.c) *const AutoAPI;
 const ENTRY_SYMBOL = "get_auto_api_v1";
-// -----------------------------------------------------
+// --------------------------------------------------------
 
 fn logic(dt: u64) callconv(.c) void {
-    std.debug.print("{d}\n", .{dt});
-}
+    std.debug.print("{d} HOLA\n", .{dt});
+} 
 
 fn cleanup() callconv(.c) void {
     std.debug.print("[auto] deinit\n", .{});
