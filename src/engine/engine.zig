@@ -1,16 +1,15 @@
-const std   = @import("std");
-const db    = @import("data/db_wrap.zig");
+const std = @import("std");
+const db = @import("data/db_wrap.zig");
 const Track = @import("data/track.zig").Track;
 const Trail = @import("data/trail.zig").Trail;
-const Map   = @import("config/map.zig").Map;
-
-// Runtime Auto Load
-const auto_loader = @import("auto/loader.zig");
-const Auto = auto_loader.LoadedAuto;
-
-// Utilities
+const Map = @import("config/map.zig").Map;
+const loader = @import("auto/loader.zig");
+const Auto = loader.LoadedAuto;
 const path_util = @import("../utils/path.zig");
 
+/// Central Unit of Execution:
+///  takes a single config file (map) and automatically
+///  loads inputs, executes commands, produces specified output.
 pub const Engine = struct {
   alloc: std.mem.Allocator,
   map: Map,
@@ -18,16 +17,13 @@ pub const Engine = struct {
   track: Track,
   trail: Trail,
 
-  /// Initialize an engine Instance
-  ///   - Reads & saves process configs
-  ///   - Loads DB into Track
-  ///   - Loads initial Trail
-  ///   - Loads Compiled Auto
+  /// Initialize an engine instance
+  ///   Reads & saves process configs.
+  ///   Loads track, trail, compiled auto.
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Engine {
-
     const map_abs_path = try path_util.mapRelPathToAbsPath(alloc, map_path);
     defer alloc.free(map_abs_path);
-    
+
     var decoded_map: Map = try Map.init(alloc, map_abs_path);
     errdefer {decoded_map.deinit();}
 
@@ -39,7 +35,7 @@ pub const Engine = struct {
     try db.closeDB(db_handle);
     errdefer {track.deinit(alloc); trail.deinit(alloc);}
     
-    const auto: Auto = try auto_loader.load_from_file(alloc, decoded_map.auto);  
+    const auto: Auto = try loader.load_from_file(alloc, decoded_map.auto);  
 
     return Engine{
       .alloc = alloc, .map = decoded_map,
@@ -47,6 +43,8 @@ pub const Engine = struct {
     };
   }
 
+  /// Deinitialize engine instance
+  ///  Frees map, auto, track, trail.
   pub fn deinit(self: *Engine) void {
     self.map.deinit();
     self.auto.deinit();

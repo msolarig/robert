@@ -8,7 +8,7 @@ pub fn main() !void {
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  var engine: Engine = try Engine.init(alloc, "usr/maps/test_map.json");
+  var engine: Engine = try Engine.init(alloc, "test_map.json");
   defer engine.deinit();
 
   for (0..10) |index| {

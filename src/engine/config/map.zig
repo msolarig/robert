@@ -24,7 +24,8 @@ pub const Map = struct {
   trail_size: u64,
   exec_mode: ExecMode,
 
-  // Decode a map.json into a Map struct, usable by an Engine.
+  /// Initialize a map instance
+  /// Decode a map.json into a Map struct, usable by an Engine.
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Map {
 
     const file = try std.fs.cwd().openFile(map_path, .{});

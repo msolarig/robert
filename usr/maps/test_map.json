@@ -1,7 +1,7 @@
 {
-  "auto": "usr/autos/test_auto.zig",
+  "auto": "test_auto.zig",
   "feed_mode": "DB",
-  "db": "usr/data/market.db",
+  "db": "market.db",
   "table": "AJG_1D",
   "t0": 1704153600,
   "tn": 1707350400,

@@ -21,7 +21,6 @@ pub fn mapRelPathToAbsPath(alloc: std.mem.Allocator, map_path: []const u8) ![]co
   const root_abs_path = try getProjectRootPath(alloc);
   defer alloc.free(root_abs_path);
     
-  std.debug.print("{s}/usr/maps/{s}\n", .{root_abs_path, file_name});
   return try std.fmt.allocPrint(alloc, "{s}/usr/maps/{s}", .{root_abs_path, file_name});
 }
 
@@ -36,7 +35,6 @@ pub fn autoSrcRelPathToCompiledAbsPath(alloc: std.mem.Allocator, auto_path: []co
   const root_abs_path = try getProjectRootPath(alloc);
   defer alloc.free(root_abs_path);
     
-  std.debug.print("{s}/zig-out/usr/autos/{s}.dylib\n", .{root_abs_path, file_stem});
   return try std.fmt.allocPrint(alloc, "{s}/zig-out/usr/autos/{s}.dylib", .{root_abs_path, file_stem});
 }
 
@@ -49,6 +47,5 @@ pub fn dbRelPathToAbsPath(alloc: std.mem.Allocator, db_path: []const u8) ![]cons
   const root_abs_path = try getProjectRootPath(alloc);
   defer alloc.free(root_abs_path);
 
- std.debug.print("{s}/usr/data/{s}\n", .{root_abs_path, file_name});
  return try std.fmt.allocPrint(alloc, "{s}/usr/data/{s}", .{root_abs_path, file_name});
 }
