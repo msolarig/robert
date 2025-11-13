@@ -1,5 +1,6 @@
 const std = @import("std");
 const Track = @import("track.zig").Track;
+const abi = @import("../auto/abi.zig");
 
 /// Track Dynamic Window
 ///   The Trail serves as a shifting view into the loaded Track. Its purpose is to facilitate 
@@ -45,6 +46,18 @@ pub const Trail = struct {
       if (track_index == 0)
         break;
     }
+  }
+
+  /// Cast a Trail instance into a C ABI readable struct
+  pub fn toABI(self: *Trail) abi.TrailABI {
+    return abi.TrailABI {
+      .ts = self.ts.ptr,
+      .op = self.op.ptr,
+      .hi = self.hi.ptr,
+      .lo = self.lo.ptr,
+      .cl = self.cl.ptr,
+      .vo = self.vo.ptr,
+    };
   }
 
   /// Deinitialize Trail instance

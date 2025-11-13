@@ -1,6 +1,5 @@
 const std = @import("std");
 
-// Main Build Function
 pub fn build(b: *std.Build) void {
   const target = b.standardTargetOptions(.{});
   const optimize = b.standardOptimizeOption(.{});

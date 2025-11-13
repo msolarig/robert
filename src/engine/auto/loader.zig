@@ -8,8 +8,8 @@ pub const LoadedAuto = struct {
   lib: std.DynLib,
   api: *const abi.AutoAPI,
 
-  pub fn AutoLogicFunction(self: *LoadedAuto, dt: u64) void {
-    self.api.functionLogic(dt);
+  pub fn AutoLogicFunction(self: *LoadedAuto, trail: abi.TrailABI) void {
+    self.api.logic_function(&trail);
   }
 
   pub fn deinit(self: *LoadedAuto) void {

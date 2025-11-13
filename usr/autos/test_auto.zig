@@ -1,22 +1,36 @@
 const std = @import("std");
 
-// inline ABI (match src/engine/auto/abi.zig) -------------
-const AutoAPI = extern struct {
+// inline ABI (match src/engine/auto/abi.zig) -------------const std = @import("std");
+
+pub const TrailABI = extern struct {
+    ts: [*]const u64, op: [*]const f64, hi: [*]const f64,
+    lo: [*]const f64, cl: [*]const f64, vo: [*]const u64,
+};
+
+pub const AutoAPI = extern struct {
     name: [*:0]const u8,
-    description: [*:0]const u8,
-    functionLogic: *const fn (dt: u64) callconv(.c) void,
+    desc: [*:0]const u8,
+    logic_function: *const fn (trail: *const TrailABI) callconv(.c) void,
     deinit: *const fn () callconv(.c) void,
 };
 
-const GetAutoAPIFn = *const fn () callconv(.c) *const AutoAPI;
-const ENTRY_SYMBOL = "get_auto_api_v1";
+pub const GetAutoAPIFn = *const fn () callconv(.c) *const AutoAPI;
+pub const ENTRY_SYMBOL = "get_auto_api_v1";
 // --------------------------------------------------------
 
-fn logic(dt: u64) callconv(.c) void {
-    std.debug.print("Data Point Volume: {d}\n", .{dt});
+fn autoLogicFunction(trail: *const TrailABI) callconv(.c) void {
+  std.debug.print("----------------------------------\n", .{});
+  std.debug.print("Data Point TS: {d}\n", .{trail.ts[0]});
+  std.debug.print("Data Point OP: {d}\n", .{trail.op[0]});
+  std.debug.print("Data Point HI: {d}\n", .{trail.hi[0]});
+  std.debug.print("Data Point LO: {d}\n", .{trail.lo[0]});
+  std.debug.print("Data Point CL: {d}\n", .{trail.cl[0]});
+  std.debug.print("Data Point VO: {d}\n", .{trail.vo[0]});
+  std.debug.print("Data Point RANGE: {d}\n", .{trail.hi[0] - trail.lo[0]});
+  std.debug.print("----------------------------------\n", .{});
 } 
 
-fn cleanup() callconv(.c) void {
+fn deinit() callconv(.c) void {
     std.debug.print("[auto] deinit\n", .{});
 }
 
@@ -28,9 +42,9 @@ pub export fn get_auto_api_v1() callconv(.c) *const AutoAPI {
     // Put the API in static storage so the returned pointer stays valid
     const API = AutoAPI{
         .name = NAME,
-        .description = DESC,
-        .functionLogic = logic,
-        .deinit = cleanup,
+        .desc = DESC,
+        .logic_function = autoLogicFunction,
+        .deinit = deinit,
     };
     return &API;
 }

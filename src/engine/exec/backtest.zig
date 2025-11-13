@@ -1,22 +1,24 @@
 const std = @import("std");
 const Engine = @import("../engine.zig").Engine;
+const abi = @import("../auto/abi.zig");
 
 pub fn runBacktest(engine: *Engine) !void {
 
-  // this  is a test implementation. Normally this 
-  // logic would go in the actual:
-  //
-  // engine.auto.AutoLogicFunction
-  //
-  //
-
+  // Minimum data points before beginning calculations.
+  //  Used to avoid index out of range error when functions 
+  //  require access to a minimum amount of past data points.
   const data_points_required: u64 = 2;
 
-  // track[0] = oldest data point
-  // trail[0] = newest data point
+  // Backtest Iterator
+  //  execute block once per data point on Engine Track.
   for (0..engine.track.size) |i| {
-    try engine.trail.load(engine.track, i);
-    if (i >= data_points_required) 
-      engine.auto.AutoLogicFunction(engine.trail.vo[0]);
+
+    // FOR tesing, this logic will go inside auto eventually.
+    if (i >= data_points_required) {
+      try engine.trail.load(engine.track, i);
+      const trail = engine.trail.toABI();
+      std.debug.print("Data Point {d}\n", .{i + 1});
+      engine.auto.AutoLogicFunction(trail);
+    }
   }
 }
