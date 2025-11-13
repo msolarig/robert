@@ -13,7 +13,7 @@ const ENTRY_SYMBOL = "get_auto_api_v1";
 // --------------------------------------------------------
 
 fn logic(dt: u64) callconv(.c) void {
-    std.debug.print("{d} HOLA\n", .{dt});
+    std.debug.print("Data Point Volume: {d}\n", .{dt});
 } 
 
 fn cleanup() callconv(.c) void {

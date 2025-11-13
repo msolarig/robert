@@ -6,6 +6,7 @@ const Map = @import("config/map.zig").Map;
 const loader = @import("auto/loader.zig");
 const Auto = loader.LoadedAuto;
 const path_util = @import("../utils/path.zig");
+const backtest = @import("exec/backtest.zig");
 
 /// Central Unit of Execution:
 ///  takes a single config file (Map) and automatically
@@ -41,6 +42,20 @@ pub const Engine = struct {
       .alloc = alloc, .map = decoded_map,
       .auto = auto, .track = track, .trail = trail,
     };
+  }
+
+  /// Engine Process Manager
+  ///   Branches execution to different processes based on Map's execution mode value.
+  pub fn ExecuteProcess(self: *Engine) !void {
+
+    // placeholder var
+    var foo: u8 = undefined;
+
+    switch (self.map.exec_mode) {
+      .LiveExecution => foo = 0,
+      .Backtest => try backtest.runBacktest(self),
+      .Optimization => foo = 0,
+    }
   }
 
   /// Deinitialize Engine instance

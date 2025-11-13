@@ -29,12 +29,14 @@ pub const Track = struct {
     }
 
   /// Load an empty Track with db_handle data form t0 to tn
-  ///   Generates a SQLite3 query, iterates through specifies row range, appends each 
+  ///   Generates a SQLite3 query, iterates through specified row range, appends each 
   ///   data point to their respecitve arraylist while keeping a common index per data point.
+  ///   The generated query specifies to traverse the db in reverse, assigning the most recent
+  ///   value to the lowest index: Track.ts.items[0] = most recent timestamp.
   pub fn load(self: *Track, alloc: std.mem.Allocator, db_handle: *anyopaque, 
               table: []const u8, t0: u64, tn: u64) !void {
 
-    const query: []const u8 = "SELECT timestamp, open, high, low, close, volume FROM {s}";
+    const query: []const u8 = "SELECT timestamp, open, high, low, close, volume FROM {s} ORDER BY timestamp DESC";
     const command: []const u8 = try std.fmt.allocPrint(alloc, query, .{table});
     const c_command = try std.heap.c_allocator.dupeZ(u8, command);
     defer std.heap.c_allocator.free(c_command);

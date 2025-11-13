@@ -3,8 +3,8 @@
   "feed_mode": "DB",
   "db": "market.db",
   "table": "AJG_1D",
-  "t0": 1704153600,
-  "tn": 1707350400,
+  "t0": 0,
+  "tn": 2000000000,
   "trail_size": 10,
   "exec_mode": "Backtest"
 }

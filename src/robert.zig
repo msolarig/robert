@@ -11,10 +11,7 @@ pub fn main() !void {
   var engine: Engine = try Engine.init(alloc, "test_map.json");
   defer engine.deinit();
 
-  for (0..10) |index| {
-    _ = index;
-    engine.auto.AutoLogicFunction(100);
-  }
+  try engine.ExecuteProcess();
 }
 
 test {

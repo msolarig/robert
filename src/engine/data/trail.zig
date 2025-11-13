@@ -41,6 +41,9 @@ pub const Trail = struct {
       self.cl[trail_index] = track.cl.items[track_index];
       self.vo[trail_index] = track.vo.items[track_index];
       trail_index += 1;
+
+      if (track_index == 0)
+        break;
     }
   }
 
