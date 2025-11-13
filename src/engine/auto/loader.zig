@@ -6,10 +6,10 @@ pub const LoadedAuto = struct {
   allocator: std.mem.Allocator,
   lib_path: []const u8,
   lib: std.DynLib,
-  api: *const abi.AutoAPI,
+  api: *const abi.AutoABI,
 
-  pub fn AutoLogicFunction(self: *LoadedAuto, trail: abi.TrailABI) void {
-    self.api.logic_function(&trail);
+  pub fn AutoLogicFunction(self: *LoadedAuto, iter_index: u64, trail: abi.TrailABI) void {
+    self.api.logic_function(iter_index, &trail);
   }
 
   pub fn deinit(self: *LoadedAuto) void {
@@ -29,7 +29,7 @@ pub fn load_from_file(allocator: std.mem.Allocator, auto_file_path: []const u8) 
   errdefer lib.close();
 
   // Lookup the single entrypoint
-  const get_api = lib.lookup(abi.GetAutoAPIFn, abi.ENTRY_SYMBOL) orelse
+  const get_api = lib.lookup(abi.GetAutoABIFn, abi.ENTRY_SYMBOL) orelse
     return error.MissingEntrySymbol;
 
   // Zig 0.15.1: function returns non-optional pointer
