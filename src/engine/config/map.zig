@@ -1,5 +1,5 @@
 const std = @import("std");
-const db = @import("../data/sql_wrapper.zig");
+const db = @import("../data/db_wrap.zig");
 
 const Mode = enum {
   LiveExecution,

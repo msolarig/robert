@@ -1,5 +1,5 @@
 const std   = @import("std");
-const db    = @import("data/sql_wrapper.zig");
+const db    = @import("data/db_wrap.zig");
 const Track = @import("data/track.zig").Track;
 const Trail = @import("data/trail.zig").Trail;
 const Map   = @import("config/map.zig").Map;
