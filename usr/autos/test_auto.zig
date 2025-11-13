@@ -23,10 +23,11 @@ const minimum_required_data_points: u64 = 2;
 /// Execution Function
 ///   Called once per update in data feed.
 fn autoLogicFunction(iter_index: u64, trail: *const TrailABI) callconv(.c) void {
+
+  // Basic auto logic
   if (iter_index >= minimum_required_data_points) {
-    std.debug.print("{d} -------------------------------\n", .{iter_index + 1});
-    std.debug.print("Data Point RANGE: {d}\n", .{trail.hi[0] - trail.lo[0]});
-    std.debug.print("----------------------------------\n", .{});
+    if (trail.op[0] < trail.op[1] and trail.cl[0] > trail.cl[1] and trail.cl[1] < trail.op[0])
+      std.debug.print("{d:03}|{d}: BUY @ {d:.2}\n", .{iter_index, trail.ts[0], trail.cl[0]});
   }
 } 
 

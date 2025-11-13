@@ -1,7 +1,6 @@
 import subprocess as sp
 
 src_file_name = input("src: ")
-bin_file_name = input("bin: ")
 
 cmd = [
     "zig", "build-lib",
@@ -9,8 +8,8 @@ cmd = [
     "-O", 
     "ReleaseSafe",
     "-fPIC",
-    f"usr/autos/{src_file_name}",
-    f"-femit-bin=zig-out/bin/usr/autos/{bin_file_name}",
+    f"usr/autos/{src_file_name}.zig",
+    f"-femit-bin=zig-out/bin/usr/autos/{src_file_name}.dylib",
 ]
 
 sp.run(cmd)
