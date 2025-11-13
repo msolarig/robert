@@ -8,7 +8,7 @@ const Auto = loader.LoadedAuto;
 const path_util = @import("../utils/path.zig");
 
 /// Central Unit of Execution:
-///  takes a single config file (map) and automatically
+///  takes a single config file (Map) and automatically
 ///  loads inputs, executes commands, produces specified output.
 pub const Engine = struct {
   alloc: std.mem.Allocator,
@@ -17,9 +17,9 @@ pub const Engine = struct {
   track: Track,
   trail: Trail,
 
-  /// Initialize an engine instance
+  /// Initialize an Engine instance
   ///   Reads & saves process configs.
-  ///   Loads track, trail, compiled auto.
+  ///   Loads Track, Trail, compiled Auto.
   pub fn init(alloc: std.mem.Allocator, map_path: []const u8) !Engine {
     const map_abs_path = try path_util.mapRelPathToAbsPath(alloc, map_path);
     defer alloc.free(map_abs_path);
@@ -43,8 +43,8 @@ pub const Engine = struct {
     };
   }
 
-  /// Deinitialize engine instance
-  ///  Frees map, auto, track, trail.
+  /// Deinitialize Engine instance
+  ///  Frees Map, Auto, Track, Trail.
   pub fn deinit(self: *Engine) void {
     self.map.deinit();
     self.auto.deinit();

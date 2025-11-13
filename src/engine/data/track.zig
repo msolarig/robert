@@ -1,6 +1,10 @@
 const std = @import("std");
 const db = @import("db_wrap.zig");
 
+/// Process Historical Database
+///   Engine reads a DB, t0, and tn from its map. Loads a Track with
+///   a separate arraylist for each data component from t0 through tn. 
+///   Allows for access to desired historical feed in a local data structure.
 pub const Track = struct {
   size: u64,
   ts: std.ArrayListUnmanaged(u64),
@@ -10,6 +14,7 @@ pub const Track = struct {
   cl: std.ArrayListUnmanaged(f64),
   vo: std.ArrayListUnmanaged(u64),
 
+  /// Initialize an empty Track instance
   pub fn init() Track {
     return Track{
       .size = 0,
@@ -22,16 +27,9 @@ pub const Track = struct {
       };
     }
 
-  pub fn deinit(self: *Track, alloc: std.mem.Allocator) void {
-    self.size = 0;
-    self.ts.deinit(alloc);
-    self.op.deinit(alloc);
-    self.hi.deinit(alloc);
-    self.lo.deinit(alloc);
-    self.cl.deinit(alloc);
-    self.vo.deinit(alloc);
-  }
-
+  /// Load an empty Track with db_handle data form t0 to tn
+  ///   Generates a SQLite3 query, iterates through specifies row range, appends each data point
+  ///   to their respecitve arraylist while keeping a common index per data point.
   pub fn load(self: *Track, alloc: std.mem.Allocator, db_handle: *anyopaque, 
               table: []const u8, t0: u64, tn: u64) !void {
 
@@ -71,5 +69,16 @@ pub const Track = struct {
       }
     }
     _ = db.sqlite3_finalize(stmt.?);
+  }
+
+  /// Deinitalize Track Instance
+  ///   Frees ts, op, hi, lo, cl, vo arrays
+  pub fn deinit(self: *Track, alloc: std.mem.Allocator) void {
+    self.ts.deinit(alloc);
+    self.op.deinit(alloc);
+    self.hi.deinit(alloc);
+    self.lo.deinit(alloc);
+    self.cl.deinit(alloc);
+    self.vo.deinit(alloc);
   }
 };
