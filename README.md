@@ -13,7 +13,7 @@ and output type (Soon).
 
 ## Fast Algorithms
 
-ROBERT's Autos allow the use of a fast set of functions and tools to build performin, self-contained 
+ROBERT's Autos allow the use of a fast set of functions and tools to build performing, self-contained 
 market execution algorithms. Here is a common template in the current (early) dev stage.
 
 ```zig
