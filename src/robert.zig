@@ -3,13 +3,30 @@ const Engine = @import("engine/engine.zig").Engine;
 
 pub fn main() !void {
   
-  // Main Program Allocator
+  // Allocator
   var gpa = std.heap.GeneralPurposeAllocator(.{}){};
   defer _ = gpa.deinit();
   const alloc = gpa.allocator();
 
-  var engine: Engine = try Engine.init(alloc, "test_map.json");
+  // Writer
+  var stdout_buffer: [1024]u8 = undefined;
+  var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+  const stdout = &stdout_writer.interface;
+
+  try stdout.print("\x1B[2J\x1B[H", .{});
+  try stdout.print("ROBERT! \nThe Robotic Execution & Research Terminal\n", .{});
+  try stdout.print("————————————————————————————————————————————————————\n\n", .{});
+  try stdout.print("\x1b[31mRUNTIME LOG:\n\x1b[0m", .{});
+  try stdout.flush();
+
+  var engine: Engine = try Engine.init(alloc, "test_map_2.json");
   defer engine.deinit();
+
+  try stdout.print("\x1b[31mEngine Details:\n\x1b[0m", .{});
+  try stdout.print("Loaded Auto Adress: {s}\n", .{engine.map.auto});
+  try stdout.print("Loaded Feed Adress: {s}\n\n", .{engine.map.db});
+  try stdout.flush();
+
   try engine.ExecuteProcess();
 }
 

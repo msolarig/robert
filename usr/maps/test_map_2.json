@@ -1,0 +1,10 @@
+{
+  "auto": "test_auto.zig",
+  "feed_mode": "DB",
+  "db": "market.db",
+  "table": "AJG_1D",
+  "t0": 0,
+  "tn": 2000000000,
+  "trail_size": 10,
+  "exec_mode": "Backtest"
+}
