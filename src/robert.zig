@@ -70,5 +70,5 @@ pub fn main() !void {
 }
 
 test {
-    _ = @import("test/track_test.zig");
+    _ = @import("test/engine_test.zig");
 }
