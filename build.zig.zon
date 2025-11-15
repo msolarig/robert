@@ -1,7 +1,7 @@
 .{
-    .name = .robotik,
+    .name = .robert,
     .version = "0.0.0",
-    .fingerprint = 0xa229c839199d2ca7,
+    .fingerprint = 0x791875e7c14ba2c9,
     .minimum_zig_version = "0.15.1",
     .dependencies = .{},
     .paths = .{ "build.zig", "build.zig.zon", "src" },
