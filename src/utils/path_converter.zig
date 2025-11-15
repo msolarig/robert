@@ -45,10 +45,7 @@ fn findExistingFile(alloc: std.mem.Allocator, root_abs: []const u8, file_name: [
 fn resolveAutoDylibPath(alloc: std.mem.Allocator, root_abs: []const u8, zig_file: []const u8) ![]u8 {
     const file_name = std.fs.path.basename(zig_file);
 
-    if (!std.mem.endsWith(u8, file_name, ".zig"))
-        return error.InvalidFilePath;
-
-    const stem = file_name[0 .. file_name.len - ".zig".len];
+    const stem = file_name[0 .. file_name.len];
 
     return try std.fmt.allocPrint(alloc, "{s}/zig-out/bin/auto/{s}.dylib", .{
         root_abs,
