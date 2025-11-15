@@ -4,6 +4,8 @@
 ![Static Badge](https://img.shields.io/badge/Python-3.13-blue) 
 ![Static Badge](https://img.shields.io/badge/Support_For_macOS-26-purple)
 
+(v1.0.0 in active development)
+
 A blazing fast, modular environment for designing, testing, and executing algorithmic trading models (in Zig!). ROBERT brings a different approach to the space of financial development environments, one in which the user has full control of every process, all from one file!
 
 Features:
