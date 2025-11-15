@@ -23,7 +23,6 @@ const minimum_required_data_points: u64 = 2;
 // Main logic function (AUTO → ENGINE)
 // ----------------------------------------------------------------------
 fn autoLogicFunction(iter: u64, inputs: abi.Inputs) callconv(.c) abi.InstructionPacket {
-
     if (iter >= minimum_required_data_points) {
         const op0 = inputs.trail.op[0];
         const cl0 = inputs.trail.cl[0];
@@ -36,10 +35,7 @@ fn autoLogicFunction(iter: u64, inputs: abi.Inputs) callconv(.c) abi.Instruction
         const engulfs = (op0 <= cl1) and (cl0 >= op1);
 
         if (prev_bearish and curr_bullish and engulfs) {
-            std.debug.print(
-                "  LONG INITIATED @ iter {d} | close={d:.2}\n",
-                .{ iter, cl0 }
-            );
+            std.debug.print("  LONG INITIATED @ iter {d} | close={d:.2}\n", .{ iter, cl0 });
         }
     }
 
@@ -50,7 +46,6 @@ fn autoLogicFunction(iter: u64, inputs: abi.Inputs) callconv(.c) abi.Instruction
         .commands = &EMPTY,
     };
 }
-
 
 // ----------------------------------------------------------------------
 // Deinitializer

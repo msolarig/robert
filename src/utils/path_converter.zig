@@ -14,38 +14,38 @@ pub fn getProjectRootPath(alloc: std.mem.Allocator) ![]u8 {
 
 /// Converts "usr/map/MAP.json" to its absolute system path
 pub fn mapRelPathToAbsPath(alloc: std.mem.Allocator, map_path: []const u8) ![]const u8 {
-  const file_name = std.fs.path.basename(map_path);
-  if (!std.mem.endsWith(u8, file_name, ".json"))
+    const file_name = std.fs.path.basename(map_path);
+    if (!std.mem.endsWith(u8, file_name, ".json"))
         return error.InvalidFileType;
 
-  const root_abs_path = try getProjectRootPath(alloc);
-  defer alloc.free(root_abs_path);
-    
-  return try std.fmt.allocPrint(alloc, "{s}/usr/map/{s}", .{root_abs_path, file_name});
+    const root_abs_path = try getProjectRootPath(alloc);
+    defer alloc.free(root_abs_path);
+
+    return try std.fmt.allocPrint(alloc, "{s}/usr/map/{s}", .{ root_abs_path, file_name });
 }
 
 /// Converts "usr/auto/AUTO.zig" to its absolute system path
 pub fn autoSrcRelPathToCompiledAbsPath(alloc: std.mem.Allocator, auto_path: []const u8) ![]const u8 {
-  const file_name = std.fs.path.basename(auto_path);
-  if (!std.mem.endsWith(u8, file_name, ".zig"))
+    const file_name = std.fs.path.basename(auto_path);
+    if (!std.mem.endsWith(u8, file_name, ".zig"))
         return error.InvalidFilePath;
 
-  const file_stem = file_name[0 .. file_name.len - ".zig".len];
+    const file_stem = file_name[0 .. file_name.len - ".zig".len];
 
-  const root_abs_path = try getProjectRootPath(alloc);
-  defer alloc.free(root_abs_path);
-    
-  return try std.fmt.allocPrint(alloc, "{s}/zig-out/bin/auto/{s}.dylib", .{root_abs_path, file_stem});
+    const root_abs_path = try getProjectRootPath(alloc);
+    defer alloc.free(root_abs_path);
+
+    return try std.fmt.allocPrint(alloc, "{s}/zig-out/bin/auto/{s}.dylib", .{ root_abs_path, file_stem });
 }
 
 /// Converts "usr/data/DB.db" to its absolute system path
 pub fn dbRelPathToAbsPath(alloc: std.mem.Allocator, db_path: []const u8) ![]const u8 {
-  const file_name = std.fs.path.basename(db_path);
-  if (!std.mem.endsWith(u8, file_name, ".db"))
-    return error.InvalidFilePath;
+    const file_name = std.fs.path.basename(db_path);
+    if (!std.mem.endsWith(u8, file_name, ".db"))
+        return error.InvalidFilePath;
 
-  const root_abs_path = try getProjectRootPath(alloc);
-  defer alloc.free(root_abs_path);
+    const root_abs_path = try getProjectRootPath(alloc);
+    defer alloc.free(root_abs_path);
 
- return try std.fmt.allocPrint(alloc, "{s}/usr/data/{s}", .{root_abs_path, file_name});
+    return try std.fmt.allocPrint(alloc, "{s}/usr/data/{s}", .{ root_abs_path, file_name });
 }

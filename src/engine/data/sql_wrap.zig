@@ -16,24 +16,24 @@ const DataBaseError = error{
     FailedToClose,
 };
 
-/// Open Database - SQLite3 Wrapper 
+/// Open Database - SQLite3 Wrapper
 pub fn openDB(path: []const u8) !*anyopaque {
-  var db_handle: ?*anyopaque = null;
-  const c_path = try std.heap.c_allocator.dupeZ(u8, path);
-  defer std.heap.c_allocator.free(c_path);
-  const open = sqlite3_open(c_path, &db_handle);
+    var db_handle: ?*anyopaque = null;
+    const c_path = try std.heap.c_allocator.dupeZ(u8, path);
+    defer std.heap.c_allocator.free(c_path);
+    const open = sqlite3_open(c_path, &db_handle);
 
-  if(open != 0) {
-    return DataBaseError.FailedToOpen;
-  }
-  return db_handle.?;
+    if (open != 0) {
+        return DataBaseError.FailedToOpen;
+    }
+    return db_handle.?;
 }
 
-/// Close Database - SQLite3 Wrapper 
+/// Close Database - SQLite3 Wrapper
 pub fn closeDB(db_handle: *anyopaque) !void {
-  const close = sqlite3_close(db_handle);
+    const close = sqlite3_close(db_handle);
 
-  if (close != 0) {
-    return DataBaseError.FailedToClose;
-  }
+    if (close != 0) {
+        return DataBaseError.FailedToClose;
+    }
 }
