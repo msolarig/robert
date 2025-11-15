@@ -64,7 +64,7 @@ Once you have a working auto, you can compile it independently. Just call the cu
 ```zsh
 python3 src/utils/compile_auto.py
 ```
-Ready! the usr/auto/AUTO will be compiled automatically. The best part is, you only need to pass the name of the auto dir/ and he will now where to find the compiled binary when assembling a new Engine. 
+Ready! the usr/auto/AUTO will be compiled automatically. The best part is, you only need to pass the name of the auto dir/ and he will know where to find the compiled binary when assembling a new Engine. 
 
 ## Simple Interface
 
