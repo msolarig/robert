@@ -13,6 +13,8 @@ Features:
 
 With ROBERT, all you need to do is pass one file, a single Engine-Map.json containing the adress to your auto (algorithm) and database, alongside all the settings you require in order to assemble your custom ready-to-work Engine.
 
+![Alt text](/assets/readme/gifs/interface.gif?raw=true "Interface Gif")
+
 ## The Engine Map
 
 All you need to do is pass one file, a single Engine-Map.json containing the adress to your auto and database, alongside all the settings you require in order to assemble your custom ready-to-work Engine.
