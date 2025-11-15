@@ -35,7 +35,7 @@ fn autoLogicFunction(iter: u64, inputs: abi.Inputs) callconv(.c) abi.Instruction
         const engulfs = (op0 <= cl1) and (cl0 >= op1);
 
         if (prev_bearish and curr_bullish and engulfs) {
-            std.debug.print("  LONG INITIATED @ iter {d} | close={d:.2}\n", .{ iter, cl0 });
+            std.debug.print("  LONG INITIATED @ iter {d:0>3} | close={d:.2}\n", .{ iter, cl0 });
         }
     }
 
