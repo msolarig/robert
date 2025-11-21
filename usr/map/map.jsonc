@@ -1,18 +1,66 @@
-{
-    "auto": "test_auto",
-    "feed_mode": "SQLite3",
-    "db": "market.db",
-    "table": "AJG_1D",
-    "t0": 0,
-    "tn": 2000000000,
-    "trail_size": 10,
-    "exec_mode": "Backtest",
+///////////////////////////////////////////////////////////////////////////////////
+//////                                                                            |
+////// ROBERT! The Robotic Execution & Research Terminal                          |  
+//////____________________________________________________________________________|
+////// ____________________________________    \\                                 |
+////// |----------------------------------|     \\                                |
+////// | Welcome to the Engine MAP!:      |      \\                               |
+////// | Manual for Assembly Procedure    |       \\        SAMPLE:               |
+////// |----------------------------------|        \\                             |
+////// | ROBERT! v1.0.0 & ROBlang v1.0.0  |         \\      usr/map/map.jsonc     |
+////// |----------------------------------|          \\                           |
+//////                                                \\                          |
+////// Use this file as a reference for a user         \\                         |  
+////// to generate their own customized engine maps.    \\                        |
+//////___________________________________________________\\_______________________|
+////// 
+////// The MAP is self-explanatory - A set of Instructions that tell Rob how
+////// to assemble a unique, fully customizable Engine. This file allow for full
+////// control over what data is used, how its loaded, what process is executed,   
+////// and how output is returned. 
+//////
+////// On this particular sample, we will build a complete Map that will tell the
+////// program to assemble an engine with the following characteristics:
+//////
+////// _*_ -> Perform an "exec_mode" Process with the following components:
+//////  |
+//////  |__1_ -> Auto "test_auto" from usr/auto/
+//////  |__2_ -> Data "SQLite3", table "AJG_1D" in "market.db" from "et0"-"etn"
+//////  |__3_ -> Dynamic, relative view of n"trail_size" into the Track
+//////  |__4_ -> Account "ENGINE_ACCOUNT_CONFIG" with the set parameters 
+//////  |__5_ -> "ENGINE_OUTPUT_CONFIG" to return output in usr/out/"testout"/
+//////
+////// To put into words, this maps tells ROBERT! to assemble an engine ready for a
+////// backtest process, with a SQLite3 feed (market.db, AJG_1D) from timestamp et0
+////// through etn. Give the auto a runtime relative access to the loaded db of 'N' 
+////// "ENGINE_TRAIL_LENGTH."
+//////
+////// PD: Run this execution using the specified Account and format the results in 
+////// the specified output configuration.
+/////_______________________________________________________________________________
+{                                           
+    // Exec Configuration                       
+    "ENGINE_EXECUTION_MODE"                     : "Backtest",
 
-    "account": {
-        "balance": 1000.0
+    // Auto Configuration
+    "ENGINE_AUTO_TO_ATTACH"                     : "test_auto",
+ 
+    // Data Configuration
+    "ENGINE_DATA_FEED_MODE"                     : "SQLite3",
+    "ENGINE_DB_FILE_NAME"                       : "market.db",
+    "ENGINE_DB_TABLE_NAME"                      : "AJG_1D",
+    "ENGINE_TIMESTAMP_0"                        : 0,
+    "ENGINE_TIMESTAMP_n"                        : 2000000000,
+    "ENGINE_TRAIL_LENGTH"                       : 10,
+
+    // Account Configuration
+    "ENGINE_ACCOUNT_CONFIG": {
+        "ACCOUNT_BALANCE"                       : 1000.0
     },
-
-    "output": {
-        "name": "testout"
+    
+    // Output Configutaion
+    "ENGINE_OUTPUT_CONFIG": {
+        "OUTPUT_DIR_NAME"                       : "testout"
     }
 }
+/////_______________________________________________________________________________

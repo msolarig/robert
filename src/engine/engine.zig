@@ -7,7 +7,7 @@ const loader = @import("auto/loader.zig");
 const Auto = loader.LoadedAuto;
 const Account = @import("../roblang/core/account.zig").Account;
 const OutputManager = @import("out/output.zig").OutputManager;
-const path_util = @import("../utils/path_converter.zig");
+const path_util = @import("../utils/path_utility.zig");
 const backtest = @import("exec/backtest.zig");
 
 /// Central Unit of Execution:
@@ -48,7 +48,7 @@ pub const Engine = struct {
 
         const auto: Auto = try loader.load_from_file(alloc, decoded_map.auto);
         const account: Account = decoded_map.account;
-        const out: OutputManager = try OutputManager.init(alloc, decoded_map.output.name);
+        const out: OutputManager = try OutputManager.init(alloc, decoded_map.output.OUTPUT_DIR_NAME);
 
         return Engine{
             .alloc = alloc,

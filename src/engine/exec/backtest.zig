@@ -5,13 +5,15 @@ const InstructionPacket = @import("../../roblang/abi/command.zig").InstructionPa
 const Command = @import("../../roblang/abi/command.zig").Command;
 const OM = @import("../../roblang/core/order.zig").OrderManager;
 const FM = @import("../../roblang/core/fill.zig").FillManager;
+const PM = @import("../../roblang/core/position.zig").PositionManager;
 const AM = @import("../../roblang/core/account.zig").AccountManager;
 const controller = @import("../../roblang/controller.zig");
-const writer = @import("../../engine/out/csv_writer.zig");
+const csv_writer = @import("../../engine/out/csv_writer.zig");
 
 pub fn runBacktest(engine: *Engine) !void {
     var om: OM = OM.init();
     var fm: FM = FM.init();
+    var pm: PM = PM.init();
 
     defer om.deinit(engine.alloc);
     defer fm.deinit(engine.alloc);
@@ -24,7 +26,7 @@ pub fn runBacktest(engine: *Engine) !void {
 
         // Iterate through working orders.
         // Execute if possible
-        try fm.evaluateWorkingOrders(engine.alloc, &om);
+        try fm.evaluateWorkingOrders(engine.alloc, &om, &pm);
 
         var inputs = abi.Inputs{
             .iter = index,
@@ -42,9 +44,18 @@ pub fn runBacktest(engine: *Engine) !void {
         engine.auto.api.logic(&inputs, &pkt);
         try controller.ExecuteInstructionPacket(engine.alloc, pkt, &om);
     }
+    
+    // Output Section
+    // For now the program separates order & fills in separate tables and
+    // writes them to usr/out/NAME_SELECTED_IN_ENGINE_MAP/
+    
+    // Simple CSV Output with order history
+    const order_out_file_name: []const u8 = "orders.csv";
+    try csv_writer.writeOrderCSV(&engine.out, &om, order_out_file_name);
+    std.debug.print("  Saved Order Log to {s}\n", .{order_out_file_name});
 
-    // Simple CSV Output with position history
-    const out_file_name: []const u8 = "fills.csv";
-    try writer.writeFillsCSV(&engine.out, &fm, out_file_name);
-    std.debug.print("  Saved results to {s}\n", .{out_file_name});
+    // Simple CSV Output with fill history
+    const fill_out_file_name: []const u8 = "fills.csv";
+    try csv_writer.writeFillsCSV(&engine.out, &fm, fill_out_file_name);
+    std.debug.print("  Saved Fill Log to {s}\n", .{fill_out_file_name});
 }

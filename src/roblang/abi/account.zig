@@ -1,1 +1,1 @@
-pub const AccountABI = extern struct { balance: f64 };
+pub const AccountABI = extern struct { ACCOUNT_BALANCE: f64 };

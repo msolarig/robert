@@ -3,6 +3,7 @@ const FillABI = @import("../abi/fill.zig").FillABI;
 const FillEntryABI = @import("../abi/fill.zig").FillEntryABI;
 const Order = @import("order.zig");
 const OrderManager = @import("order.zig").OrderManager;
+const PositionManager = @import("position.zig").PositionManager;
 
 pub const FillSide = Order.OrderDirection;
 
@@ -25,26 +26,24 @@ pub const Fill = struct {
 };
 
 pub const FillManager = struct {
-    net_state: f64,
     fills: std.ArrayList(Fill),
     abi_buffer: std.ArrayList(FillEntryABI),
     abi: FillABI,
 
     pub fn init() FillManager {
         return FillManager{
-            .net_state = 0,
             .fills = .{},
             .abi_buffer = .{},
             .abi = .{ .ptr = @ptrFromInt(8), .count = 0 },
         };
     }
 
-    pub fn evaluateWorkingOrders(self: *FillManager, gpa: std.mem.Allocator, om: *OrderManager) !void {
+    pub fn evaluateWorkingOrders(self: *FillManager, gpa: std.mem.Allocator, om: *OrderManager, pm: *PositionManager) !void {
         for (om.orders_working.items) |order_index| {
             const order = om.orders.items[order_index];
 
             switch (order.type) {
-                .Market => try self.executeMarketOrder(gpa, order),
+                .Market => try self.executeMarketOrder(gpa, order, pm),
                 .Stop => continue,
                 .Limit => continue,
             }
@@ -52,10 +51,11 @@ pub const FillManager = struct {
         om.orders_working.clearRetainingCapacity();
     }
 
-    pub fn executeMarketOrder(self: *FillManager, gpa: std.mem.Allocator, order: Order.Order) !void {
+    pub fn executeMarketOrder(self: *FillManager, gpa: std.mem.Allocator, order: Order.Order, pm: *PositionManager) !void {
         const fill = Fill.init(order.iter, order.timestamp, order.side, order.price, order.volume);
         try self.fills.append(gpa, fill);
-        self.net_state += fill.volume;
+        pm.exposure += fill.volume;
+        std.debug.print("  Updated Instrument Exposure: {d}\n", .{pm.exposure});
     }
 
     /// Convert internal list → ABI struct (pointer + count).

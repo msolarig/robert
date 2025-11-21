@@ -1,7 +1,7 @@
 const std = @import("std");
 const vaxis = @import("vaxis");
 const border = @import("border.zig");
-const path_util = @import("../../../utils/path_converter.zig");
+const path_util = @import("../../../utils/path_utility.zig");
 const tree = @import("../fs/tree.zig");
 
 pub fn render(win: vaxis.Window) !void {

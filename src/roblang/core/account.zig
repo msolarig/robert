@@ -1,10 +1,10 @@
 const std = @import("std");
 
 pub const Account = struct {
-    balance: f64,
+    ACCOUNT_BALANCE: f64,
 
     pub fn init(balance: f64) Account {
-        return .{ .balance = balance };
+        return .{ .ACCOUNT_BALANCE= balance };
     }
 };
 
@@ -21,7 +21,7 @@ pub const AccountManager = struct {
 
     pub fn toABI(self: *const AccountManager) @import("../abi/account.zig").AccountABI {
         return .{
-            .balance = self.account.balance,
+            .ACCOUNT_BALANCE = self.account.ACCOUNT_BALANCE,
         };
     }
 };
