@@ -9,6 +9,13 @@ pub fn build(b: *std.Build) void {
         .root_module = b.createModule(.{ .root_source_file = b.path("src/robert.zig"), .target = target, .optimize = optimize, .imports = &.{} }),
     });
 
+    const vaxis = b.dependency("vaxis", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    exe.root_module.addImport("vaxis", vaxis.module("vaxis"));
+
     // Link External Libraries ------------------------------
     exe.linkSystemLibrary("sqlite3");
     // ------------------------------------------------------

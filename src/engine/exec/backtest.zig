@@ -45,6 +45,6 @@ pub fn runBacktest(engine: *Engine) !void {
 
     // Simple CSV Output with position history
     const out_file_name: []const u8 = "fills.csv";
-    try writer.writeFillsCSV(&engine.out, engine.alloc, &fm, out_file_name);
+    try writer.writeFillsCSV(&engine.out, &fm, out_file_name);
     std.debug.print("  Saved results to {s}\n", .{out_file_name});
 }
